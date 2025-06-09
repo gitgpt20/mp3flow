@@ -354,6 +354,19 @@ def url_valid_and_allowed(url, allow_unknown_sites=False):
         return False
 
 
+def url_blocked_by_lists(url):
+    host = url.host
+    if host in BLACKLIST_TELEGRAM_DOMAINS:
+        return True
+    if WHITELIST_DOMAINS:
+        if host not in WHITELIST_DOMAINS:
+            return True
+    if BLACKLIST_DOMAINS:
+        if host in BLACKLIST_DOMAINS:
+            return True
+    return False
+
+
 async def start_help_commands_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = None
     if update.channel_post:
@@ -708,7 +721,13 @@ def get_direct_urls_dict(message, mode, proxy, source_ip, allow_unknown_sites):
                 logger.info("Entity URL parsed: %s", url)
                 urls.append(url)
             else:
-                logger.info("Entity URL is not valid or blacklisted: %s", url_str)
+                if url_blocked_by_lists(url):
+                    logger.info(
+                        "Entity URL is not valid or blacklisted: %s - rejected due to whitelist/blacklist settings.",
+                        url_str,
+                    )
+                else:
+                    logger.info("Entity URL is not valid or blacklisted: %s", url_str)
         except:
             logger.info("Entity URL is not valid: %s", url_str)
     text_link_entities = message.parse_entities(types=[MessageEntity.TEXT_LINK])
@@ -720,7 +739,13 @@ def get_direct_urls_dict(message, mode, proxy, source_ip, allow_unknown_sites):
             logger.info("Entity Text Link parsed: %s", url)
             urls.append(url)
         else:
-            logger.info("Entity Text Link is not valid or blacklisted: %s", url)
+            if url_blocked_by_lists(url):
+                logger.info(
+                    "Entity Text Link is not valid or blacklisted: %s - rejected due to whitelist/blacklist settings.",
+                    url,
+                )
+            else:
+                logger.info("Entity Text Link is not valid or blacklisted: %s", url)
     # If message just some text passed (not isinstance(message, Message)):
     # all_links = find_all_links(message, default_scheme="http")
     # urls = [link for link in all_links if url_valid_and_allowed(link)]
