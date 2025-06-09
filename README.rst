@@ -147,6 +147,9 @@ config environment variables in it:
     # Use your favourite editor. Sample config is self-documented:
     nano .env
 
+-  ``WHITELIST_DOMAINS`` and ``BLACKLIST_DOMAINS`` should contain comma-separated
+   domain names.
+
 Telegram Bot Settings
 """""""""""""""""""""
 
