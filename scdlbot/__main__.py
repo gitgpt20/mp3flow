@@ -1486,7 +1486,9 @@ def main():
         .build()
     )
 
-    bot_username = requests.get(f"{TG_BOT_API}/bot{TG_BOT_TOKEN}/getMe").json()["result"]["username"]
+    bot_username = requests.get(
+        f"{TG_BOT_API}/bot{TG_BOT_TOKEN}/getMe", timeout=COMMON_CONNECTION_TIMEOUT
+    ).json()["result"]["username"]
     blacklist_whitelist_handler = MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, blacklist_whitelist_callback)
     start_command_handler = CommandHandler("start", start_help_commands_callback)
     help_command_handler = CommandHandler("help", start_help_commands_callback)
