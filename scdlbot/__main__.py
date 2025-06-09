@@ -82,7 +82,11 @@ if TG_BOT_API_LOCAL_MODE:
     HTTP_VERSION = "1.1"
 TG_BOT_OWNER_CHAT_ID = int(os.getenv("TG_BOT_OWNER_CHAT_ID", "0"))
 
-CHAT_STORAGE = os.path.expanduser(os.getenv("CHAT_STORAGE", "/tmp/scdlbot.pickle"))
+# Path to pickle file for storing chat and user data. By default it is placed
+# next to this module so the bot can run from any location without additional
+# configuration.
+_chat_storage_default = pathlib.Path(__file__).parent / "scdlbot.pickle"
+CHAT_STORAGE = os.path.expanduser(os.getenv("CHAT_STORAGE", str(_chat_storage_default)))
 DL_DIR = os.path.expanduser(os.getenv("DL_DIR", "/tmp/scdlbot"))
 BIN_PATH = os.getenv("BIN_PATH", "")
 scdl_bin = local[os.path.join(BIN_PATH, "scdl")]
