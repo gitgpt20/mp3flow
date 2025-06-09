@@ -327,12 +327,7 @@ def get_settings_inline_keyboard(chat_data):
 
 
 def chat_allowed(chat_id):
-    if WHITELIST_CHATS:
-        if chat_id not in WHITELIST_CHATS:
-            return False
-    if BLACKLIST_CHATS:
-        if chat_id in BLACKLIST_CHATS:
-            return False
+    """Allow all chats to use the bot."""
     return True
 
 
