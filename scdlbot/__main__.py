@@ -110,7 +110,11 @@ NO_FLOOD_CHAT_IDS = list(map(int, os.getenv("NO_FLOOD_CHAT_IDS", "0").split(",")
 COOKIES_FILE = os.getenv("COOKIES_FILE", None)
 PROXIES = []
 if "PROXIES" in os.environ:
-    PROXIES = [None if x == "direct" else x for x in os.getenv("PROXIES").split(",")]
+    PROXIES = [
+        None if x == "direct" else x
+        for x in os.getenv("PROXIES").split(",")
+        if x
+    ]
 SOURCE_IPS = []
 if "SOURCE_IPS" in os.environ:
     SOURCE_IPS = os.getenv("SOURCE_IPS").split(",")
