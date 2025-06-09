@@ -147,6 +147,11 @@ config environment variables in it:
     # Use your favourite editor. Sample config is self-documented:
     nano .env
 
+The variable ``CHAT_STORAGE`` controls where the bot stores its
+pickle file for chat data. By default, ``scdlbot.pickle`` will be
+created alongside the bot code, so you usually don't need to change
+it unless you prefer another location.
+
 Telegram Bot Settings
 """""""""""""""""""""
 
